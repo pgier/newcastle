@@ -1,5 +1,12 @@
+# Ignore temporary Maven files
 target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.next
 release.properties
+
+# Ignore eclipse project files
+.project
+.classpath
+.settings
+
