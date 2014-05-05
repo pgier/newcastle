@@ -21,11 +21,12 @@ public class BuildConfiguration implements Serializable {
 	@Column(name="build_script")
 	private String buildScript;
 
-	@Column(name="project_id")
-	private Integer projectId;
-
 	@Column(name="source_url")
 	private String sourceUrl;
+
+	//bi-directional many-to-one association to Project
+	@ManyToOne
+	private Project project;
 
 	//bi-directional many-to-one association to BuildTrigger
 	@OneToMany(mappedBy="buildConfiguration1")
@@ -54,20 +55,20 @@ public class BuildConfiguration implements Serializable {
 		this.buildScript = buildScript;
 	}
 
-	public Integer getProjectId() {
-		return this.projectId;
-	}
-
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
-	}
-
 	public String getSourceUrl() {
 		return this.sourceUrl;
 	}
 
 	public void setSourceUrl(String sourceUrl) {
 		this.sourceUrl = sourceUrl;
+	}
+
+	public Project getProject() {
+		return this.project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public List<BuildTrigger> getBuildTriggers1() {

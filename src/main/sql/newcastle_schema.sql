@@ -44,6 +44,51 @@ CREATE TABLE artifact (
 ALTER TABLE public.artifact OWNER TO adminvq5ckvd;
 
 --
+-- Name: TABLE artifact; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE artifact IS 'Build Artifacts';
+
+
+--
+-- Name: build_collection; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
+--
+
+CREATE TABLE build_collection (
+    id integer NOT NULL,
+    name character varying(20)
+);
+
+
+ALTER TABLE public.build_collection OWNER TO adminvq5ckvd;
+
+--
+-- Name: TABLE build_collection; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE build_collection IS 'Group of build results, such as all builds that are part of a single product release';
+
+
+--
+-- Name: build_collection_build_result; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
+--
+
+CREATE TABLE build_collection_build_result (
+    build_collection_id integer NOT NULL,
+    build_result_id integer NOT NULL
+);
+
+
+ALTER TABLE public.build_collection_build_result OWNER TO adminvq5ckvd;
+
+--
+-- Name: TABLE build_collection_build_result; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE build_collection_build_result IS 'Mapping between build results and build collections';
+
+
+--
 -- Name: build_configuration; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
@@ -56,6 +101,13 @@ CREATE TABLE build_configuration (
 
 
 ALTER TABLE public.build_configuration OWNER TO adminvq5ckvd;
+
+--
+-- Name: TABLE build_configuration; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE build_configuration IS 'Build environment configuration';
+
 
 --
 -- Name: COLUMN build_configuration.source_url; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
@@ -85,11 +137,19 @@ CREATE TABLE build_result (
     build_log text,
     build_script text,
     project_id integer,
-    project_name character varying(40)
+    project_name character varying(40),
+    user_id integer
 );
 
 
 ALTER TABLE public.build_result OWNER TO adminvq5ckvd;
+
+--
+-- Name: TABLE build_result; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE build_result IS 'Result of a build such as the command used to execute the build, the log file, and whether the build was successful.';
+
 
 --
 -- Name: build_trigger; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
@@ -103,6 +163,13 @@ CREATE TABLE build_trigger (
 
 
 ALTER TABLE public.build_trigger OWNER TO adminvq5ckvd;
+
+--
+-- Name: TABLE build_trigger; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE build_trigger IS 'Relationship to allow one build to automatically trigger execution of another build';
+
 
 --
 -- Name: license; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
@@ -141,6 +208,13 @@ CREATE TABLE project (
 ALTER TABLE public.project OWNER TO adminvq5ckvd;
 
 --
+-- Name: TABLE project; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE project IS 'Project to be built';
+
+
+--
 -- Name: system_image; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
@@ -154,6 +228,13 @@ CREATE TABLE system_image (
 
 
 ALTER TABLE public.system_image OWNER TO adminvq5ckvd;
+
+--
+-- Name: TABLE system_image; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE system_image IS 'Build system image';
+
 
 --
 -- Name: COLUMN system_image.image_blob; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
@@ -177,11 +258,49 @@ COMMENT ON COLUMN system_image.name IS 'Short name of the image for easy referen
 
 
 --
+-- Name: user; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
+--
+
+CREATE TABLE "user" (
+    id integer NOT NULL,
+    username character varying(20),
+    first_name character varying(20),
+    last_name character varying(20),
+    email character varying(30)
+);
+
+
+ALTER TABLE public."user" OWNER TO adminvq5ckvd;
+
+--
+-- Name: TABLE "user"; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON TABLE "user" IS 'System Users';
+
+
+--
 -- Name: pk_artifact_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY artifact
     ADD CONSTRAINT pk_artifact_id PRIMARY KEY (id);
+
+
+--
+-- Name: pk_build_collection_build_result; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
+--
+
+ALTER TABLE ONLY build_collection_build_result
+    ADD CONSTRAINT pk_build_collection_build_result PRIMARY KEY (build_collection_id, build_result_id);
+
+
+--
+-- Name: pk_build_collection_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
+--
+
+ALTER TABLE ONLY build_collection
+    ADD CONSTRAINT pk_build_collection_id PRIMARY KEY (id);
 
 
 --
@@ -233,6 +352,14 @@ ALTER TABLE ONLY system_image
 
 
 --
+-- Name: pk_user_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
+--
+
+ALTER TABLE ONLY "user"
+    ADD CONSTRAINT pk_user_id PRIMARY KEY (id);
+
+
+--
 -- Name: fk_artifact_build_result_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
@@ -241,11 +368,43 @@ ALTER TABLE ONLY artifact
 
 
 --
+-- Name: fk_build_collection_build_result_build_collection_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
+--
+
+ALTER TABLE ONLY build_collection_build_result
+    ADD CONSTRAINT fk_build_collection_build_result_build_collection_id FOREIGN KEY (build_collection_id) REFERENCES build_collection(id);
+
+
+--
+-- Name: fk_build_collection_build_result_build_result_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
+--
+
+ALTER TABLE ONLY build_collection_build_result
+    ADD CONSTRAINT fk_build_collection_build_result_build_result_id FOREIGN KEY (build_result_id) REFERENCES build_result(id);
+
+
+--
+-- Name: fk_build_configuration_project_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
+--
+
+ALTER TABLE ONLY build_configuration
+    ADD CONSTRAINT fk_build_configuration_project_id FOREIGN KEY (project_id) REFERENCES project(id);
+
+
+--
 -- Name: fk_build_result_project_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_result
     ADD CONSTRAINT fk_build_result_project_id FOREIGN KEY (project_id) REFERENCES project(id);
+
+
+--
+-- Name: fk_build_result_user_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
+--
+
+ALTER TABLE ONLY build_result
+    ADD CONSTRAINT fk_build_result_user_id FOREIGN KEY (user_id) REFERENCES "user"(id);
 
 
 --

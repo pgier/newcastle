@@ -21,14 +21,18 @@ public class Project implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to License
-	@ManyToOne
-	@JoinColumn(name="current_license_id")
-	private License license;
+	//bi-directional many-to-one association to BuildConfiguration
+	@OneToMany(mappedBy="project")
+	private List<BuildConfiguration> buildConfigurations;
 
 	//bi-directional many-to-one association to BuildResult
 	@OneToMany(mappedBy="project")
 	private List<BuildResult> buildResults;
+
+	//bi-directional many-to-one association to License
+	@ManyToOne
+	@JoinColumn(name="current_license_id")
+	private License license;
 
 	public Project() {
 	}
@@ -57,12 +61,26 @@ public class Project implements Serializable {
 		this.name = name;
 	}
 
-	public License getLicense() {
-		return this.license;
+	public List<BuildConfiguration> getBuildConfigurations() {
+		return this.buildConfigurations;
 	}
 
-	public void setLicense(License license) {
-		this.license = license;
+	public void setBuildConfigurations(List<BuildConfiguration> buildConfigurations) {
+		this.buildConfigurations = buildConfigurations;
+	}
+
+	public BuildConfiguration addBuildConfiguration(BuildConfiguration buildConfiguration) {
+		getBuildConfigurations().add(buildConfiguration);
+		buildConfiguration.setProject(this);
+
+		return buildConfiguration;
+	}
+
+	public BuildConfiguration removeBuildConfiguration(BuildConfiguration buildConfiguration) {
+		getBuildConfigurations().remove(buildConfiguration);
+		buildConfiguration.setProject(null);
+
+		return buildConfiguration;
 	}
 
 	public List<BuildResult> getBuildResults() {
@@ -85,6 +103,14 @@ public class Project implements Serializable {
 		buildResult.setProject(null);
 
 		return buildResult;
+	}
+
+	public License getLicense() {
+		return this.license;
+	}
+
+	public void setLicense(License license) {
+		this.license = license;
 	}
 
 }
