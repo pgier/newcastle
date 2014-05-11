@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:body>
+
+  <ui:composition template="templates/defaultLayout.xhtml">
+    <ui:define name="content">
+      <section>
+        <hgroup>
+          <h2>Project Newcastle Database Tables</h2>
+        </hgroup>
+        <table border="1">
+          <ui:repeat value="#{schemaInfo.getTables()}" var="tableName">
+            <tr>
+              <td><h:link value="#{tableName}" outcome="showTables">
+                  <f:param name="tableName" value="#{tableName}" />
+                </h:link></td>
+            </tr>
+          </ui:repeat>
+        </table>
+        <hgroup>
+          <h2>Selected Table: #{schemaInfo.selectedTable}</h2>
+        </hgroup>
+        <table border="1">
+          <tr>
+            <th>Column Name</th>
+            <th>Type</th>
+          </tr>
+          <ui:repeat value="#{schemaInfo.getColumns()}" var="columnData">
+            <tr>
+              <td>#{columnData[0]}</td>
+              <td>#{columnData[1]}</td>
+            </tr>
+          </ui:repeat>
+        </table>
+      </section>
+    </ui:define>
+  </ui:composition>
+
+</h:body>
+
+</html>

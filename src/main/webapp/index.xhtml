@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:body>
+
+  <ui:composition template="templates/defaultLayout.xhtml">
+    <ui:define name="content">
+      <section class="container">
+        <hgroup>
+          <h1>Welcome to Project Newcastle</h1>
+        </hgroup>
+
+        <section>
+          <h2>Getting Started</h2>
+          <p>
+            Project Newcastle uses the <a
+              href="https://www.openshift.com/">openshift</a> service
+            for prototyping and development. The project sources are
+            available in <a href="https://github.com/pgier/newcastle">github</a>.
+            You can easily set up your own openshift application
+            environment and build and deploy updates to your project
+            newcastle instance.
+          </p>
+
+          <h3>Using the Demo</h3>
+          <p>
+            Project Newcastle is currently in the very early stages of
+            development, so there is only limited functionality. As more
+            functionality is added, additional links should be places on
+            this welcome page for easy navigation. You can see a list of
+            the current database tables <a href="showTables.xhtml">here</a>.
+          </p>
+
+          <p>If you created the application from the web console,
+            you'll need to manually clone the repository to your local
+            system. Copy the application's source code Git URL and then
+            run:</p>
+
+        </section>
+      </section>
+      <section class="col-xs-12 col-sm-6 col-md-6">
+
+        <h2>Contributing</h2>
+
+        <h3>Overview</h3>
+        <p>
+          Information about project Newcastle and how to set up your own
+          development environment and contribute to the project is
+          available in the Red Hat <a
+            href="https://docs.engineering.redhat.com/display/JP/Development+Environment">engineering
+            wiki</a>.
+        </p>
+
+        <h3>Java Sources</h3>
+        <p>
+          The source code to the Java webapp is available in <a
+            href="https://github.com/pgier/newcastle">github</a>.
+        </p>
+
+        <h3>Database Schema</h3>
+        <p>Project Newcastle uses the Postgresql database. The SQL
+          for creating and updating the schema is available in github
+          with the Java sources.</p>
+      </section>
+    </ui:define>
+
+  </ui:composition>
+
+</h:body>
+
+</html>

@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="newcastle-web">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
+
 		<class>org.jboss.newcastle.model.Artifact</class>
 		<class>org.jboss.newcastle.model.BuildCollection</class>
 		<class>org.jboss.newcastle.model.BuildConfiguration</class>
 		<class>org.jboss.newcastle.model.BuildResult</class>
 		<class>org.jboss.newcastle.model.BuildTrigger</class>
 		<class>org.jboss.newcastle.model.License</class>
-		<class>org.jboss.newcastle.model.Project</class>
 		<class>org.jboss.newcastle.model.SystemImage</class>
 		<class>org.jboss.newcastle.model.User</class>
+		<class>org.jboss.newcastle.model.Project</class>
+
+        <properties>
+          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+          <property name="hibernate.hbm2ddl.auto" value="none"/>
+          <property name="hibernate.show_sql" value="true"/>
+          <property name="hibnerate.format_sql" value="true"/>
+        </properties>
 	</persistence-unit>
 </persistence>

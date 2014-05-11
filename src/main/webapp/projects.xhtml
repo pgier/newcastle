@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:body>
+
+  <ui:composition template="templates/defaultLayout.xhtml">
+    <ui:define name="title">Projects</ui:define>
+    <ui:define name="content">
+      <h2>Projects</h2>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        <ui:repeat var="project"
+          value="#{projectBean.findAllProjects()}">
+          <tr>
+            <td><h:link value="#{project.name}"
+                outcome="viewProject">
+                <f:param name="projectId" value="#{project.id}" />
+              </h:link></td>
+            <td>#{project.description}</td>
+          </tr>
+        </ui:repeat>
+      </table>
+
+    </ui:define>
+  </ui:composition>
+
+</h:body>
+
+</html>
