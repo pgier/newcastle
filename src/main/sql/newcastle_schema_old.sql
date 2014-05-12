@@ -30,7 +30,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: artifact; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: artifact; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE artifact (
@@ -41,17 +41,17 @@ CREATE TABLE artifact (
 );
 
 
-ALTER TABLE public.artifact OWNER TO postgres;
+ALTER TABLE public.artifact OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE artifact; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE artifact; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE artifact IS 'Build Artifacts';
 
 
 --
--- Name: build_collection; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: build_collection; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE build_collection (
@@ -60,17 +60,17 @@ CREATE TABLE build_collection (
 );
 
 
-ALTER TABLE public.build_collection OWNER TO postgres;
+ALTER TABLE public.build_collection OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE build_collection; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE build_collection; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE build_collection IS 'Group of build results, such as all builds that are part of a single product release';
 
 
 --
--- Name: build_collection_build_result; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: build_collection_build_result; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE build_collection_build_result (
@@ -79,60 +79,52 @@ CREATE TABLE build_collection_build_result (
 );
 
 
-ALTER TABLE public.build_collection_build_result OWNER TO postgres;
+ALTER TABLE public.build_collection_build_result OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE build_collection_build_result; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE build_collection_build_result; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE build_collection_build_result IS 'Mapping between build results and build collections';
 
 
 --
--- Name: build_configuration; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: build_configuration; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE build_configuration (
     id integer NOT NULL,
     project_id integer,
-    build_script text,
-    source_id character varying(30),
-    system_image_id integer
+    source_url character varying(200),
+    build_script text
 );
 
 
-ALTER TABLE public.build_configuration OWNER TO postgres;
+ALTER TABLE public.build_configuration OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE build_configuration; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE build_configuration; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE build_configuration IS 'Build environment configuration';
 
 
 --
--- Name: COLUMN build_configuration.build_script; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: COLUMN build_configuration.source_url; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON COLUMN build_configuration.source_url IS 'URL to sources';
+
+
+--
+-- Name: COLUMN build_configuration.build_script; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON COLUMN build_configuration.build_script IS 'Command line instructions to run the build';
 
 
 --
--- Name: COLUMN build_configuration.source_id; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN build_configuration.source_id IS 'Unique ID of the source to build';
-
-
---
--- Name: COLUMN build_configuration.system_image_id; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN build_configuration.system_image_id IS 'ID of the system image to use to execute the build';
-
-
---
--- Name: build_result; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: build_result; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE build_result (
@@ -150,17 +142,17 @@ CREATE TABLE build_result (
 );
 
 
-ALTER TABLE public.build_result OWNER TO postgres;
+ALTER TABLE public.build_result OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE build_result; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE build_result; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE build_result IS 'Result of a build such as the command used to execute the build, the log file, and whether the build was successful.';
 
 
 --
--- Name: build_trigger; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: build_trigger; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE build_trigger (
@@ -170,17 +162,17 @@ CREATE TABLE build_trigger (
 );
 
 
-ALTER TABLE public.build_trigger OWNER TO postgres;
+ALTER TABLE public.build_trigger OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE build_trigger; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE build_trigger; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE build_trigger IS 'Relationship to allow one build to automatically trigger execution of another build';
 
 
 --
--- Name: license; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: license; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE license (
@@ -192,62 +184,38 @@ CREATE TABLE license (
 );
 
 
-ALTER TABLE public.license OWNER TO postgres;
+ALTER TABLE public.license OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE license; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE license; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE license IS 'Software Licenses';
 
 
 --
--- Name: project; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: project; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE project (
-    name character varying(20),
     id integer NOT NULL,
     current_license_id integer,
     description text,
-    scm_url character varying(50),
-    issue_tracker_url character varying(50),
-    project_url character varying(50)
+    name character varying(20)
 );
 
 
-ALTER TABLE public.project OWNER TO postgres;
+ALTER TABLE public.project OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE project; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE project; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE project IS 'Project to be built';
 
 
 --
--- Name: COLUMN project.scm_url; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN project.scm_url IS 'URL of the SCM repository';
-
-
---
--- Name: COLUMN project.issue_tracker_url; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN project.issue_tracker_url IS 'URL to the project issue tracking system';
-
-
---
--- Name: COLUMN project.project_url; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN project.project_url IS 'URL to homepage of the project';
-
-
---
--- Name: system_image; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: system_image; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE system_image (
@@ -259,38 +227,38 @@ CREATE TABLE system_image (
 );
 
 
-ALTER TABLE public.system_image OWNER TO postgres;
+ALTER TABLE public.system_image OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE system_image; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE system_image; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE system_image IS 'Build system image';
 
 
 --
--- Name: COLUMN system_image.image_blob; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: COLUMN system_image.image_blob; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON COLUMN system_image.image_blob IS 'Build system image file, this could be something like a VM or Docker image.';
 
 
 --
--- Name: COLUMN system_image.image_url; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: COLUMN system_image.image_url; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON COLUMN system_image.image_url IS 'URL location of the system image to use for the build';
 
 
 --
--- Name: COLUMN system_image.name; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: COLUMN system_image.name; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON COLUMN system_image.name IS 'Short name of the image for easy reference';
 
 
 --
--- Name: user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user; Type: TABLE; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 CREATE TABLE "user" (
@@ -302,17 +270,17 @@ CREATE TABLE "user" (
 );
 
 
-ALTER TABLE public."user" OWNER TO postgres;
+ALTER TABLE public."user" OWNER TO adminvq5ckvd;
 
 --
--- Name: TABLE "user"; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: TABLE "user"; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON TABLE "user" IS 'System Users';
 
 
 --
--- Name: pk_artifact_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_artifact_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY artifact
@@ -320,7 +288,7 @@ ALTER TABLE ONLY artifact
 
 
 --
--- Name: pk_build_collection_build_result; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_build_collection_build_result; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY build_collection_build_result
@@ -328,7 +296,7 @@ ALTER TABLE ONLY build_collection_build_result
 
 
 --
--- Name: pk_build_collection_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_build_collection_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY build_collection
@@ -336,7 +304,7 @@ ALTER TABLE ONLY build_collection
 
 
 --
--- Name: pk_build_configuration_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_build_configuration_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY build_configuration
@@ -344,7 +312,7 @@ ALTER TABLE ONLY build_configuration
 
 
 --
--- Name: pk_build_result; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_build_result; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY build_result
@@ -352,7 +320,7 @@ ALTER TABLE ONLY build_result
 
 
 --
--- Name: pk_build_trigger_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_build_trigger_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY build_trigger
@@ -360,7 +328,7 @@ ALTER TABLE ONLY build_trigger
 
 
 --
--- Name: pk_license_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_license_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY license
@@ -368,7 +336,7 @@ ALTER TABLE ONLY license
 
 
 --
--- Name: pk_project_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_project_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY project
@@ -376,7 +344,7 @@ ALTER TABLE ONLY project
 
 
 --
--- Name: pk_system_image_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_system_image_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY system_image
@@ -384,7 +352,7 @@ ALTER TABLE ONLY system_image
 
 
 --
--- Name: pk_user_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: pk_user_id; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
 --
 
 ALTER TABLE ONLY "user"
@@ -392,15 +360,7 @@ ALTER TABLE ONLY "user"
 
 
 --
--- Name: unique_project_name; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY project
-    ADD CONSTRAINT unique_project_name UNIQUE (name);
-
-
---
--- Name: fk_artifact_build_result_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_artifact_build_result_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY artifact
@@ -408,7 +368,7 @@ ALTER TABLE ONLY artifact
 
 
 --
--- Name: fk_build_collection_build_result_build_collection_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_build_collection_build_result_build_collection_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_collection_build_result
@@ -416,7 +376,7 @@ ALTER TABLE ONLY build_collection_build_result
 
 
 --
--- Name: fk_build_collection_build_result_build_result_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_build_collection_build_result_build_result_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_collection_build_result
@@ -424,7 +384,7 @@ ALTER TABLE ONLY build_collection_build_result
 
 
 --
--- Name: fk_build_configuration_project_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_build_configuration_project_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_configuration
@@ -432,15 +392,7 @@ ALTER TABLE ONLY build_configuration
 
 
 --
--- Name: fk_build_configuration_system_image_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY build_configuration
-    ADD CONSTRAINT fk_build_configuration_system_image_id FOREIGN KEY (system_image_id) REFERENCES system_image(id);
-
-
---
--- Name: fk_build_result_project_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_build_result_project_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_result
@@ -448,7 +400,7 @@ ALTER TABLE ONLY build_result
 
 
 --
--- Name: fk_build_result_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_build_result_user_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_result
@@ -456,7 +408,7 @@ ALTER TABLE ONLY build_result
 
 
 --
--- Name: fk_build_trigger_build_configuration_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_build_trigger_build_configuration_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_trigger
@@ -464,7 +416,7 @@ ALTER TABLE ONLY build_trigger
 
 
 --
--- Name: fk_build_trigger_triggered_build_configuration_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_build_trigger_triggered_build_configuration_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY build_trigger
@@ -472,7 +424,7 @@ ALTER TABLE ONLY build_trigger
 
 
 --
--- Name: fk_project_license_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: fk_project_license_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
 ALTER TABLE ONLY project

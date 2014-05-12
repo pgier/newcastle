@@ -2,6 +2,7 @@ package org.jboss.newcastle.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -26,6 +27,10 @@ public class SystemImage implements Serializable {
 	private String imageUrl;
 
 	private String name;
+
+	//bi-directional many-to-one association to BuildConfiguration
+	@OneToMany(mappedBy="systemImage")
+	private List<BuildConfiguration> buildConfigurations;
 
 	public SystemImage() {
 	}
@@ -68,6 +73,28 @@ public class SystemImage implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<BuildConfiguration> getBuildConfigurations() {
+		return this.buildConfigurations;
+	}
+
+	public void setBuildConfigurations(List<BuildConfiguration> buildConfigurations) {
+		this.buildConfigurations = buildConfigurations;
+	}
+
+	public BuildConfiguration addBuildConfiguration(BuildConfiguration buildConfiguration) {
+		getBuildConfigurations().add(buildConfiguration);
+		buildConfiguration.setSystemImage(this);
+
+		return buildConfiguration;
+	}
+
+	public BuildConfiguration removeBuildConfiguration(BuildConfiguration buildConfiguration) {
+		getBuildConfigurations().remove(buildConfiguration);
+		buildConfiguration.setSystemImage(null);
+
+		return buildConfiguration;
 	}
 
 }

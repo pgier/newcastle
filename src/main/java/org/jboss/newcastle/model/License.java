@@ -15,6 +15,7 @@ public class License implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(name="full_name")
@@ -28,15 +29,6 @@ public class License implements Serializable {
 
 	@Column(name="short_name")
 	private String shortName;
-
-	//bi-directional one-to-one association to License
-	@OneToOne
-	@JoinColumn(name="id")
-	private License license1;
-
-	//bi-directional one-to-one association to License
-	@OneToOne(mappedBy="license1")
-	private License license2;
 
 	//bi-directional many-to-one association to Project
 	@OneToMany(mappedBy="license")
@@ -83,22 +75,6 @@ public class License implements Serializable {
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
-	}
-
-	public License getLicense1() {
-		return this.license1;
-	}
-
-	public void setLicense1(License license1) {
-		this.license1 = license1;
-	}
-
-	public License getLicense2() {
-		return this.license2;
-	}
-
-	public void setLicense2(License license2) {
-		this.license2 = license2;
 	}
 
 	public List<Project> getProjects() {

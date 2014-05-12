@@ -21,12 +21,17 @@ public class BuildConfiguration implements Serializable {
 	@Column(name="build_script")
 	private String buildScript;
 
-	@Column(name="source_url")
-	private String sourceUrl;
+	@Column(name="source_id")
+	private String sourceId;
 
 	//bi-directional many-to-one association to Project
 	@ManyToOne
 	private Project project;
+
+	//bi-directional many-to-one association to SystemImage
+	@ManyToOne
+	@JoinColumn(name="system_image_id")
+	private SystemImage systemImage;
 
 	//bi-directional many-to-one association to BuildTrigger
 	@OneToMany(mappedBy="buildConfiguration1")
@@ -55,12 +60,12 @@ public class BuildConfiguration implements Serializable {
 		this.buildScript = buildScript;
 	}
 
-	public String getSourceUrl() {
-		return this.sourceUrl;
+	public String getSourceId() {
+		return this.sourceId;
 	}
 
-	public void setSourceUrl(String sourceUrl) {
-		this.sourceUrl = sourceUrl;
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
 	}
 
 	public Project getProject() {
@@ -69,6 +74,14 @@ public class BuildConfiguration implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public SystemImage getSystemImage() {
+		return this.systemImage;
+	}
+
+	public void setSystemImage(SystemImage systemImage) {
+		this.systemImage = systemImage;
 	}
 
 	public List<BuildTrigger> getBuildTriggers1() {

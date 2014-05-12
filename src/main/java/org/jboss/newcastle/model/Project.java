@@ -11,7 +11,6 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Project.findAll", query="SELECT p FROM Project p")
-@Table(name="project", schema="public")
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,7 +19,21 @@ public class Project implements Serializable {
 
 	private String description;
 
+	@Column(name="issue_tracker_url")
+	private String issueTrackerUrl;
+
 	private String name;
+
+	@Column(name="project_url")
+	private String projectUrl;
+
+	@Column(name="scm_url")
+	private String scmUrl;
+
+	//bi-directional many-to-one association to License
+	@ManyToOne
+	@JoinColumn(name="current_license_id")
+	private License license;
 
 	//bi-directional many-to-one association to BuildConfiguration
 	@OneToMany(mappedBy="project")
@@ -29,11 +42,6 @@ public class Project implements Serializable {
 	//bi-directional many-to-one association to BuildResult
 	@OneToMany(mappedBy="project")
 	private List<BuildResult> buildResults;
-
-	//bi-directional many-to-one association to License
-	@ManyToOne
-	@JoinColumn(name="current_license_id")
-	private License license;
 
 	public Project() {
 	}
@@ -54,12 +62,44 @@ public class Project implements Serializable {
 		this.description = description;
 	}
 
+	public String getIssueTrackerUrl() {
+		return this.issueTrackerUrl;
+	}
+
+	public void setIssueTrackerUrl(String issueTrackerUrl) {
+		this.issueTrackerUrl = issueTrackerUrl;
+	}
+
 	public String getName() {
 		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getProjectUrl() {
+		return this.projectUrl;
+	}
+
+	public void setProjectUrl(String projectUrl) {
+		this.projectUrl = projectUrl;
+	}
+
+	public String getScmUrl() {
+		return this.scmUrl;
+	}
+
+	public void setScmUrl(String scmUrl) {
+		this.scmUrl = scmUrl;
+	}
+
+	public License getLicense() {
+		return this.license;
+	}
+
+	public void setLicense(License license) {
+		this.license = license;
 	}
 
 	public List<BuildConfiguration> getBuildConfigurations() {
@@ -104,14 +144,6 @@ public class Project implements Serializable {
 		buildResult.setProject(null);
 
 		return buildResult;
-	}
-
-	public License getLicense() {
-		return this.license;
-	}
-
-	public void setLicense(License license) {
-		this.license = license;
 	}
 
 }

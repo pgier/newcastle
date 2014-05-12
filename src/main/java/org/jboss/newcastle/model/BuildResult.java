@@ -46,13 +46,13 @@ public class BuildResult implements Serializable {
 	@OneToMany(mappedBy="buildResult")
 	private List<Artifact> artifacts;
 
-	//bi-directional many-to-one association to Project
-	@ManyToOne
-	private Project project;
-
 	//bi-directional many-to-many association to BuildCollection
 	@ManyToMany(mappedBy="buildResults")
 	private List<BuildCollection> buildCollections;
+
+	//bi-directional many-to-one association to Project
+	@ManyToOne
+	private Project project;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -155,20 +155,20 @@ public class BuildResult implements Serializable {
 		return artifact;
 	}
 
-	public Project getProject() {
-		return this.project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
 	public List<BuildCollection> getBuildCollections() {
 		return this.buildCollections;
 	}
 
 	public void setBuildCollections(List<BuildCollection> buildCollections) {
 		this.buildCollections = buildCollections;
+	}
+
+	public Project getProject() {
+		return this.project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public User getUser() {
