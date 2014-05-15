@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:body>
+
+  <ui:composition template="/templates/defaultLayout.xhtml">
+    <ui:define name="title">Licenses</ui:define>
+    <ui:define name="content">
+      <h1>Licenses</h1>
+      <h:link outcome="/license/edit" value="Add License" class="button-link" />
+      <table class="data-list">
+        <tr>
+          <th>Name</th>
+          <th>URL</th>
+        </tr>
+        <ui:repeat var="license"
+          value="#{licenseBean.findAllLicenses()}">
+          <tr>
+            <td><h:link value="#{license.shortName}"
+                outcome="/license/edit">
+                <f:param name="licenseId" value="#{license.id}" />
+              </h:link></td>
+            <td>#{license.refUrl}</td>
+          </tr>
+        </ui:repeat>
+      </table>
+
+    </ui:define>
+  </ui:composition>
+
+</h:body>
+
+</html>

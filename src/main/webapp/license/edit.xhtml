@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:body>
+
+  <f:metadata>
+    <f:viewParam name="licenseId" value="#{licenseBean.id}" />
+    <f:event listener="#{licenseBean.retrieve}" type="preRenderView" />
+  </f:metadata>
+
+  <ui:composition template="/templates/defaultLayout.xhtml">
+    <ui:define name="title">
+      <c:choose>
+        <c:when test="#{!empty licenseBean.id}">Edit License</c:when>
+        <c:otherwise>Add License</c:otherwise>
+      </c:choose>
+    </ui:define>
+    <ui:define name="content">
+      <h2>License</h2>
+      <h:form id="edit">
+        <h:panelGrid columnClasses="label,required, component" columns="3" class="input-form">
+          <h:outputLabel for="licenseShortName"
+            value="Short Name:" />
+          <h:outputText value="*" />
+          <h:panelGroup>
+            <h:inputText id="licenseShortName"
+              value="#{licenseBean.license.shortName}" required="true"
+              maxlength="30" />
+          </h:panelGroup>
+          <h:outputLabel for="licenseBeanFullName" value="Full Name:" />
+          <h:outputText value="*" />
+          <h:panelGroup>
+            <h:inputText id="licenseBeanFullName"
+              value="#{licenseBean.license.fullName}" required="true" />
+          </h:panelGroup>
+          <h:outputLabel for="licenseURL" value="URL:" />
+          <h:outputText value="" />
+          <h:panelGroup>
+            <h:inputText id="licenseURL"
+              value="#{licenseBean.license.refUrl}" required="false" />
+          </h:panelGroup>
+          <h:outputLabel for="licenseBeanFullText" value="Full Text" />
+          <h:outputText value="*" />
+          <h:panelGroup>
+            <h:inputTextarea id="licenseBeanFullText" cols="60" rows="20"
+              value="#{licenseBean.license.fullText}" required="true" />
+          </h:panelGroup>
+
+        </h:panelGrid>
+
+        <h:link value="Cancel" outcome="/license/search" class="button-link"/>
+        <c:if test="#{!empty licenseBean.id}">
+          <h:commandLink action="#{licenseBean.delete()}" value="Delete" class="button-link"/>
+        </c:if>
+        <h:commandLink action="#{licenseBean.update()}" value="Save"  class="button-link"/>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+
+</h:body>
+
+</html>

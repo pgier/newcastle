@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:body>
+
+  <f:metadata>
+    <f:viewParam name="licenseId" value="#{licenseBean.id}"/>
+    <f:event listener="#{licenseBean.retrieve}" type="preRenderView"/>
+  </f:metadata>
+  <ui:composition template="/templates/defaultLayout.xhtml">
+    <ui:define name="title">View License</ui:define>
+    <ui:define name="content">
+      <h2>License</h2>
+      <h:panelGrid columnClasses="label,component,required" columns="3">
+        <h:outputLabel for="licenseBeanLicenseShortName" value="Name:" />
+        <h:outputText id="licenseBeanLicenseShortName" value="#{licenseBean.license.shortName}" />
+        <h:outputText/>
+      </h:panelGrid>
+
+    </ui:define>
+  </ui:composition>
+
+</h:body>
+
+</html>
