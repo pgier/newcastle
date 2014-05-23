@@ -7,28 +7,52 @@
 <h:head>
   <title>Newcastle - <ui:insert name="title">Home</ui:insert></title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <h:outputStylesheet name="koji.css" library="css" />
+  <h:outputStylesheet name="newcastle.css" library="css" />
 </h:head>
 
 <h:body>
 
-  <div id="header">
-    <ui:insert name="header">
-      <ui:include src="/templates/defaultHeader.xhtml" />
-    </ui:insert>
+  <div id="container">
+    <!-- header -->
+    <div id="header-container">
+      <div id="header-margin" class="auto-margin">
+        <div id="header">
+          <ui:insert name="header">
+            <ui:include src="/templates/defaultHeader.xhtml" />
+          </ui:insert>
+        </div>
+      </div>
+    </div>
+    <!-- end header -->
+    <!-- main navigation -->
+    <div id="navigation-container">
+      <div id="navigation-margin">
+        <div id="navigation" class="auto-margin">
+          <ui:insert name="navigation">
+            <ui:include src="/templates/defaultNavigation.xhtml" />
+          </ui:insert>
+        </div>
+      </div>
+    </div>
+    <!-- end main navigation -->
+    <div id="content-container">
+      <div id="content-margin" class="auto-margin">
+        <div id="content">
+          <ui:insert name="content">
+            <ui:include src="/templates/defaultContent.xhtml" />
+          </ui:insert>
+        </div>
+      </div>
+    </div>
+    <div id="footer-container">
+      <div id="footer-margin" class="auto-margin">
+        <div id="footer">
+          <ui:insert name="footer">
+            <ui:include src="/templates/defaultFooter.xhtml" />
+          </ui:insert>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div id="content" class="body_element">
-    <ui:insert name="content">
-      <ui:include src="/templates/defaultContent.xhtml" />
-    </ui:insert>
-  </div>
-
-  <div id="footer">
-    <ui:insert name="footer">
-      <ui:include src="/templates/defaultFooter.xhtml" />
-    </ui:insert>
-  </div>
-
 </h:body>
 </html>

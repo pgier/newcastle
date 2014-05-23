@@ -5,31 +5,12 @@
   xmlns:ui="http://java.sun.com/jsf/facelets">
 <body>
   <ui:composition>
-
-    <div id="app-toolbar-wrap">
-      <div id="app-toolbar" class="body_element">
-        <div id="app-name">
-          <span>Newcastle</span>
-        </div>
-      </div>
+    <div id="header-app-name">
+      <h1>Newcastle</h1>
     </div>
-    <!-- MAIN NAVIGATION -->
-    <div id="mainNav">
-      <h4 class="hide">Main Site Links:</h4>
-      <ul class="body_element">
-        <li id="summaryTab"><h:link value="Summary" outcome="/index" /></li>
-        <li id="projectsTab"><h:link value="Projects" outcome="/projects" /></li>
-        <li id="buildsTab"><h:link value="Builds" outcome="/builds" /></li>
-        <li id="licensesTab"><h:link value="Licenses" outcome="/license/search" /></li>
-        <li id="collectionsTab"><h:link value="Collections" outcome="/collections" /></li>
-        <li id="usersTab"><h:link value="Users" outcome="/users" /></li>
-        <li id="reportsTab"><h:link value="Reports" outcome="/reports" /></li>
-        <li id="searchTab"><h:link value="Search" outcome="/search" /></li>
-      </ul>
+    <div id="header-app-status" class="float-right">
+      <span>Log In</span>
     </div>
-    <!-- end mainNav -->
-
-    <!-- end header -->
   </ui:composition>
 </body>
 </html>

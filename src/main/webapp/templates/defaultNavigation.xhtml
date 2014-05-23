@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<body>
+  <ui:composition>
+    <div id="mainNav">
+      <h4 class="hide">Main Site Links:</h4>
+      <ul>
+        <li id="summaryTab"><h:link value="Summary"
+            outcome="/index" /></li>
+        <li id="projectsTab"><h:link value="Projects"
+            outcome="/projects" /></li>
+        <li id="buildsTab"><h:link value="Builds" outcome="/builds" /></li>
+        <li id="licensesTab"><h:link value="Licenses"
+            outcome="/license/search" /></li>
+        <li id="collectionsTab"><h:link value="Collections"
+            outcome="/collections" /></li>
+        <li id="usersTab"><h:link value="Users" outcome="/users" /></li>
+        <li id="reportsTab"><h:link value="Reports"
+            outcome="/reports" /></li>
+        <li id="searchTab"><h:link value="Search" outcome="/search" /></li>
+      </ul>
+    </div>
+  </ui:composition>
+</body>
+</html>
