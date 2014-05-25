@@ -35,7 +35,7 @@ SET default_with_oids = false;
 
 CREATE TABLE artifact (
     id integer NOT NULL,
-    filename character varying(100),
+    filename character varying(100) NOT NULL,
     build_result_id integer,
     checksum character varying(50)
 );
@@ -51,12 +51,41 @@ COMMENT ON TABLE artifact IS 'Build Artifacts';
 
 
 --
+-- Name: artifact_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE artifact_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.artifact_id_seq OWNER TO postgres;
+
+--
+-- Name: build_collection_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE build_collection_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.build_collection_id_seq OWNER TO postgres;
+
+--
 -- Name: build_collection; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE build_collection (
-    id integer NOT NULL,
-    name character varying(20)
+    id integer DEFAULT nextval('build_collection_id_seq'::regclass) NOT NULL,
+    name character varying(20) NOT NULL,
+    description text
 );
 
 
@@ -89,11 +118,25 @@ COMMENT ON TABLE build_collection_build_result IS 'Mapping between build results
 
 
 --
+-- Name: build_configuration_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE build_configuration_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.build_configuration_id_seq OWNER TO postgres;
+
+--
 -- Name: build_configuration; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE build_configuration (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('build_configuration_id_seq'::regclass) NOT NULL,
     project_id integer,
     build_script text,
     source_id character varying(30),
@@ -132,11 +175,25 @@ COMMENT ON COLUMN build_configuration.system_image_id IS 'ID of the system image
 
 
 --
+-- Name: build_result_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE build_result_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.build_result_id_seq OWNER TO postgres;
+
+--
 -- Name: build_result; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE build_result (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('build_result_id_seq'::regclass) NOT NULL,
     start_time timestamp without time zone,
     end_time timestamp without time zone,
     source_url character varying(100),
@@ -160,11 +217,25 @@ COMMENT ON TABLE build_result IS 'Result of a build such as the command used to 
 
 
 --
+-- Name: build_trigger_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE build_trigger_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.build_trigger_id_seq OWNER TO postgres;
+
+--
 -- Name: build_trigger; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE build_trigger (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('build_trigger_id_seq'::regclass) NOT NULL,
     build_configuration_id integer,
     triggered_build_configuration_id integer
 );
@@ -180,11 +251,25 @@ COMMENT ON TABLE build_trigger IS 'Relationship to allow one build to automatica
 
 
 --
+-- Name: license_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE license_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.license_id_seq OWNER TO postgres;
+
+--
 -- Name: license; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE license (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('license_id_seq'::regclass) NOT NULL,
     short_name character varying(20),
     full_name character varying(100),
     full_text text,
@@ -202,12 +287,26 @@ COMMENT ON TABLE license IS 'Software Licenses';
 
 
 --
+-- Name: project_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE project_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_id_seq OWNER TO postgres;
+
+--
 -- Name: project; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE project (
-    name character varying(20),
-    id integer NOT NULL,
+    name character varying(20) NOT NULL,
+    id integer DEFAULT nextval('project_id_seq'::regclass) NOT NULL,
     current_license_id integer,
     description text,
     scm_url character varying(50),
@@ -247,11 +346,25 @@ COMMENT ON COLUMN project.project_url IS 'URL to homepage of the project';
 
 
 --
+-- Name: system_image_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE system_image_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.system_image_id_seq OWNER TO postgres;
+
+--
 -- Name: system_image; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE system_image (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('system_image_id_seq'::regclass) NOT NULL,
     description text,
     image_blob bytea,
     image_url character varying(100),
@@ -290,12 +403,26 @@ COMMENT ON COLUMN system_image.name IS 'Short name of the image for easy referen
 
 
 --
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_id_seq OWNER TO postgres;
+
+--
 -- Name: user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE "user" (
-    id integer NOT NULL,
-    username character varying(20),
+    id integer DEFAULT nextval('user_id_seq'::regclass) NOT NULL,
+    username character varying(20) NOT NULL,
     first_name character varying(20),
     last_name character varying(20),
     email character varying(30)

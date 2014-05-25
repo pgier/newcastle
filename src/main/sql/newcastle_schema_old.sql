@@ -95,8 +95,9 @@ COMMENT ON TABLE build_collection_build_result IS 'Mapping between build results
 CREATE TABLE build_configuration (
     id integer NOT NULL,
     project_id integer,
-    source_url character varying(200),
-    build_script text
+    build_script text,
+    source_id character varying(30),
+    system_image_id integer
 );
 
 
@@ -110,17 +111,24 @@ COMMENT ON TABLE build_configuration IS 'Build environment configuration';
 
 
 --
--- Name: COLUMN build_configuration.source_url; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
---
-
-COMMENT ON COLUMN build_configuration.source_url IS 'URL to sources';
-
-
---
 -- Name: COLUMN build_configuration.build_script; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
 --
 
 COMMENT ON COLUMN build_configuration.build_script IS 'Command line instructions to run the build';
+
+
+--
+-- Name: COLUMN build_configuration.source_id; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON COLUMN build_configuration.source_id IS 'Unique ID of the source to build';
+
+
+--
+-- Name: COLUMN build_configuration.system_image_id; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON COLUMN build_configuration.system_image_id IS 'ID of the system image to use to execute the build';
 
 
 --
@@ -201,7 +209,10 @@ CREATE TABLE project (
     id integer NOT NULL,
     current_license_id integer,
     description text,
-    name character varying(20)
+    name character varying(20),
+    scm_url character varying(50),
+    issue_tracker_url character varying(50),
+    project_url character varying(50)
 );
 
 
@@ -212,6 +223,27 @@ ALTER TABLE public.project OWNER TO adminvq5ckvd;
 --
 
 COMMENT ON TABLE project IS 'Project to be built';
+
+
+--
+-- Name: COLUMN project.scm_url; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON COLUMN project.scm_url IS 'URL of the SCM repository';
+
+
+--
+-- Name: COLUMN project.issue_tracker_url; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON COLUMN project.issue_tracker_url IS 'URL to the project issue tracking system';
+
+
+--
+-- Name: COLUMN project.project_url; Type: COMMENT; Schema: public; Owner: adminvq5ckvd
+--
+
+COMMENT ON COLUMN project.project_url IS 'URL to homepage of the project';
 
 
 --
@@ -360,6 +392,14 @@ ALTER TABLE ONLY "user"
 
 
 --
+-- Name: unique_project_name; Type: CONSTRAINT; Schema: public; Owner: adminvq5ckvd; Tablespace: 
+--
+
+ALTER TABLE ONLY project
+    ADD CONSTRAINT unique_project_name UNIQUE (name);
+
+
+--
 -- Name: fk_artifact_build_result_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
 --
 
@@ -389,6 +429,14 @@ ALTER TABLE ONLY build_collection_build_result
 
 ALTER TABLE ONLY build_configuration
     ADD CONSTRAINT fk_build_configuration_project_id FOREIGN KEY (project_id) REFERENCES project(id);
+
+
+--
+-- Name: fk_build_configuration_system_image_id; Type: FK CONSTRAINT; Schema: public; Owner: adminvq5ckvd
+--
+
+ALTER TABLE ONLY build_configuration
+    ADD CONSTRAINT fk_build_configuration_system_image_id FOREIGN KEY (system_image_id) REFERENCES system_image(id);
 
 
 --
