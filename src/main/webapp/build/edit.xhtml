@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:body>
+
+  <f:metadata>
+    <f:viewParam name="buildConfigurationId" value="#{buildConfigurationBean.id}" />
+    <f:event listener="#{buildConfigurationBean.retrieve}" type="preRenderView" />
+  </f:metadata>
+
+  <ui:composition template="/templates/defaultLayout.xhtml">
+    <ui:define name="title">
+      <c:choose>
+        <c:when test="#{!empty buildConfigurationBean.id}">Edit Build Configuration</c:when>
+        <c:otherwise>Add Build Configuration</c:otherwise>
+      </c:choose>
+    </ui:define>
+    <ui:define name="content">
+      <h2>Build Configuration</h2>
+      <h:form id="edit">
+        <h:panelGrid columnClasses="label,required, component" columns="3" class="input-form">
+          <h:outputLabel for="buildConfigurationName"
+            value="Name:" />
+          <h:outputText value="*" />
+          <h:panelGroup>
+            <h:inputText id="buildConfigurationName"
+              value="#{buildConfigurationBean.buildConfiguration.name}" required="true"
+              maxlength="30" />
+          </h:panelGroup>
+          <h:outputLabel for="project" value="Project:" />
+          <h:outputText value="" />
+          <h:panelGroup>
+            <h:selectOneMenu id="project" 
+                             converter="#{projectBean.converter}"
+                             value="#{buildConfigurationBean.buildConfiguration.project}">
+              <f:selectItem/>
+              <f:selectItems value="#{projectBean.findAllProjects()}" var="project"
+                             itemLabel="#{project.name}" itemValue="#{project.id}"/>
+            </h:selectOneMenu>
+          </h:panelGroup>
+          <h:outputLabel value="SCM URL:" />
+          <h:outputText value="" />
+          <h:outputLabel value="Set in project"/>
+          <h:outputLabel for="commitId" value="Commit ID" />
+          <h:outputText value="*" />
+          <h:panelGroup>
+            <h:inputText id="commitId"
+              value="#{buildConfigurationBean.buildConfiguration.sourceId}" required="true" />
+          </h:panelGroup>
+          <h:outputLabel for="buildScript" value="Build Script" />
+          <h:outputText value="" />
+          <h:panelGroup>
+            <h:inputTextarea id="buildScript" cols="60" rows="10"
+              value="#{buildConfigurationBean.buildConfiguration.buildScript}" />
+          </h:panelGroup>
+        </h:panelGrid>
+
+        <h:link value="Cancel" outcome="/build/view" class="button-link"/>
+        <c:if test="#{!empty buildConfigurationBean.id}">
+          <h:commandLink action="#{buildConfigurationBean.delete()}" value="Delete" class="button-link"/>
+        </c:if>
+        <h:commandLink action="#{buildConfigurationBean.update()}" value="Save"  class="button-link"/>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+
+</h:body>
+
+</html>

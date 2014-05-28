@@ -7,22 +7,19 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.jboss.newcastle.model.License;
-import org.jboss.newcastle.model.Project;
+import org.jboss.newcastle.model.BuildConfiguration;
 
 @Named
 @Stateful
 @ConversationScoped
-public class ProjectBean implements Serializable {
+public class BuildConfigurationBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,13 +37,13 @@ public class ProjectBean implements Serializable {
         this.id = new Integer(id);
     }
 
-    private Project project;
+    private BuildConfiguration buildConfiguration;
 
-    public Project getProject() {
-        return project;
+    public BuildConfiguration getBuildConfiguration() {
+        return buildConfiguration;
     }
 
-    private Project search = new Project();
+    private BuildConfiguration search = new BuildConfiguration();
 
     @Inject
     private Conversation conversation;
@@ -54,7 +51,7 @@ public class ProjectBean implements Serializable {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public String create() {
+    public String edit() {
         this.conversation.begin();
         return "edit?faces-redirect=true";
     }
@@ -69,9 +66,9 @@ public class ProjectBean implements Serializable {
         }
 
         if (this.id == null) {
-            this.project = this.search;
+            this.buildConfiguration = this.search;
         } else {
-            this.project = this.entityManager.find(Project.class, getId());
+            this.buildConfiguration = this.entityManager.find(BuildConfiguration.class, getId());
         }
     }
 
@@ -82,11 +79,11 @@ public class ProjectBean implements Serializable {
 
         try {
             if (this.id == null) {
-                this.entityManager.persist(this.project);
+                this.entityManager.persist(this.buildConfiguration);
                 return "view?faces-redirect=true";
             } else {
-                this.entityManager.merge(this.project);
-                return "view?faces-redirect=true&id=" + this.project.getId();
+                this.entityManager.merge(this.buildConfiguration);
+                return "view?faces-redirect=true&id=" + this.buildConfiguration.getId();
             }
 
         } catch (Exception e) {
@@ -101,7 +98,7 @@ public class ProjectBean implements Serializable {
         }
 
         try {
-            this.entityManager.remove(this.entityManager.find(Project.class, getId()));
+            this.entityManager.remove(this.entityManager.find(BuildConfiguration.class, getId()));
             this.entityManager.flush();
             return "view?faces-redirect=true";
         } catch (Exception e) {
@@ -110,26 +107,8 @@ public class ProjectBean implements Serializable {
         }
     }
 
-    public Collection<Project> findAllProjects() {
-        TypedQuery<Project> query = entityManager.createNamedQuery("Project.findAll", Project.class);
-        return (Collection<Project>) query.getResultList();
-    }
- 
-    public Converter getConverter() {
-        
-        return new Converter() {
-            @Override
-            public Object getAsObject(FacesContext context, UIComponent component, String value) {
-                return ProjectBean.this.entityManager.find(Project.class, new Integer(value));
-            }
-            
-            @Override
-            public String getAsString(FacesContext context, UIComponent component, Object value) {
-                if (value==null) {
-                    return "";
-                }
-                return value.toString();
-            }
-        };
+    public Collection<BuildConfiguration> findAllBuildConfigurations() {
+        TypedQuery<BuildConfiguration> query = entityManager.createNamedQuery("BuildConfiguration.findAll", BuildConfiguration.class);
+        return (Collection<BuildConfiguration>) query.getResultList();
     }
 }

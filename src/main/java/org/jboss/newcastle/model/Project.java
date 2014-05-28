@@ -1,7 +1,9 @@
 package org.jboss.newcastle.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -15,6 +17,7 @@ public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
 	private String description;
@@ -30,11 +33,6 @@ public class Project implements Serializable {
 	@Column(name="scm_url")
 	private String scmUrl;
 
-	//bi-directional many-to-one association to License
-	@ManyToOne
-	@JoinColumn(name="current_license_id")
-	private License license;
-
 	//bi-directional many-to-one association to BuildConfiguration
 	@OneToMany(mappedBy="project")
 	private List<BuildConfiguration> buildConfigurations;
@@ -42,6 +40,11 @@ public class Project implements Serializable {
 	//bi-directional many-to-one association to BuildResult
 	@OneToMany(mappedBy="project")
 	private List<BuildResult> buildResults;
+
+	//bi-directional many-to-one association to License
+	@ManyToOne
+	@JoinColumn(name="current_license_id")
+	private License license;
 
 	public Project() {
 	}
@@ -94,14 +97,6 @@ public class Project implements Serializable {
 		this.scmUrl = scmUrl;
 	}
 
-	public License getLicense() {
-		return this.license;
-	}
-
-	public void setLicense(License license) {
-		this.license = license;
-	}
-
 	public List<BuildConfiguration> getBuildConfigurations() {
 		return this.buildConfigurations;
 	}
@@ -145,5 +140,25 @@ public class Project implements Serializable {
 
 		return buildResult;
 	}
+
+	public License getLicense() {
+		return this.license;
+	}
+
+	public void setLicense(License license) {
+		this.license = license;
+	}
+
+    public boolean equals(Object obj) {
+        Integer compareId = new Integer(-1);
+        if (obj instanceof Integer) {
+            compareId = (Integer)obj;
+        }
+        if (obj instanceof Project) {
+            compareId = ((Project)obj).getId();
+        }
+        return this.id.equals(compareId);
+
+    }
 
 }

@@ -16,7 +16,10 @@ public class BuildCollection implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+
+	private String description;
 
 	private String name;
 
@@ -42,6 +45,14 @@ public class BuildCollection implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getName() {

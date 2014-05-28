@@ -98,5 +98,17 @@ public class License implements Serializable {
 
 		return project;
 	}
+	
+	public boolean equals(Object obj) {
+	    Integer compareId = new Integer(-1);
+	    if (obj instanceof Integer) {
+	        compareId = (Integer)obj;
+	    }
+	    if (obj instanceof License) {
+	        compareId = ((License)obj).getId();
+	    }
+	    return this.id.equals(compareId);
+
+	}
 
 }

@@ -7,23 +7,23 @@
 <h:body>
 
   <ui:composition template="/templates/defaultLayout.xhtml">
-    <ui:define name="title">Licenses</ui:define>
+    <ui:define name="title">Build Configurations</ui:define>
     <ui:define name="content">
-      <h1>Licenses</h1>
-      <h:link outcome="/license/edit" value="Add License" class="button-link" />
+      <h1>Build Configurations</h1>
+      <h:link outcome="/build/edit" value="Add Build Configuration" class="button-link" />
       <table class="data-list">
         <tr>
           <th>Name</th>
-          <th>URL</th>
+          <th>Project</th>
         </tr>
-        <ui:repeat var="license"
-          value="#{licenseBean.findAllLicenses()}">
+        <ui:repeat var="build"
+          value="#{buildConfigurationBean.findAllBuildConfigurations()}">
           <tr>
-            <td><h:link value="#{license.shortName}"
-                outcome="/license/edit">
-                <f:param name="licenseId" value="#{license.id}" />
+            <td><h:link value="#{build.name}"
+                outcome="/build/edit">
+                <f:param name="buildConfigurationId" value="#{build.id}" />
               </h:link></td>
-            <td>#{license.refUrl}</td>
+            <td>#{build.project.name}</td>
           </tr>
         </ui:repeat>
       </table>

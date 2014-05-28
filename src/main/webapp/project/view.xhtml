@@ -6,23 +6,24 @@
   xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:body>
 
-  <ui:composition template="templates/defaultLayout.xhtml">
+  <ui:composition template="/templates/defaultLayout.xhtml">
     <ui:define name="title">Projects</ui:define>
     <ui:define name="content">
-      <h2>Projects</h2>
-      <table>
+      <h1>Projects</h1>
+      <h:link outcome="/project/edit" value="Add Project" class="button-link" />
+      <table class="data-list">
         <tr>
           <th>Name</th>
-          <th>Description</th>
+          <th>URL</th>
         </tr>
         <ui:repeat var="project"
           value="#{projectBean.findAllProjects()}">
           <tr>
             <td><h:link value="#{project.name}"
-                outcome="viewProject">
+                outcome="/project/edit">
                 <f:param name="projectId" value="#{project.id}" />
               </h:link></td>
-            <td>#{project.description}</td>
+            <td>#{project.projectUrl}</td>
           </tr>
         </ui:repeat>
       </table>

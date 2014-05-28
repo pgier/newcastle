@@ -16,10 +16,13 @@ public class BuildConfiguration implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(name="build_script")
 	private String buildScript;
+
+	private String name;
 
 	@Column(name="source_id")
 	private String sourceId;
@@ -58,6 +61,14 @@ public class BuildConfiguration implements Serializable {
 
 	public void setBuildScript(String buildScript) {
 		this.buildScript = buildScript;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getSourceId() {
